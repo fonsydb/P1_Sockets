@@ -25,7 +25,6 @@ Cuando un usuario bloquea a otro, se deberá comunicar este hecho al servidor a 
 
 La estructura de paquetes y módulos/clases es la siguiente (ver Tabla 1):
 <img width="639" height="190" alt="image" src="https://github.com/user-attachments/assets/6f09ca0a-6d05-4a66-aa1d-dfd3e5db0c6c" />
-<img width="639" height="190" alt="image" src="https://github.com/user-attachments/assets/6f09ca0a-6d05-4a66-aa1d-dfd3e5db0c6c" />
 
 El código fuente de ChatMessage.java y MessageType.java están ya disponibles.
 
@@ -47,7 +46,6 @@ Comentarios respecto a ChatClientImpl:
 Comentarios respecto a ChatClientListener:
     • Implementa la interfaz Runnable, por lo tanto, redefine el método run para ejecutar el hilo de escucha de mensajes del servidor (flujo de entrada) y mostrar los mensajes entrantes.
 
-<img width="604" height="444" alt="image" src="https://github.com/user-attachments/assets/7d72410c-d3fe-47e4-aee1-ff30c5cb1437" />
 <img width="604" height="444" alt="image" src="https://github.com/user-attachments/assets/7d72410c-d3fe-47e4-aee1-ff30c5cb1437" />
 
 1.2. Paquete es.ubu.lsi.common
@@ -71,7 +69,6 @@ Comentarios respecto a la clase ChatServerThreadForClient:
     • La clase extiende de Thread.
     • En el método run se espera en un bucle a los mensajes recibidos de cada cliente (flujo de entrada), realizándose la operación correspondiente (a través de los métodos de la clase externa, ChatServer). A la finalización de su ejecución se debe eliminar al pro-pio cliente de la lista de clientes activos.
 
-<img width="640" height="585" alt="image" src="https://github.com/user-attachments/assets/8526db1e-a0a2-4ae2-81d5-dc6ff3a72736" />
 <img width="640" height="585" alt="image" src="https://github.com/user-attachments/assets/8526db1e-a0a2-4ae2-81d5-dc6ff3a72736" />
 
 2. Normas de Entrega
