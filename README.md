@@ -37,13 +37,18 @@ Los mensajes se trasmiten como objetos serializados, por lo que para la resoluci
 
 1.1. Paquete es.ubu.lsi.client
 Comentarios respecto a la interfaz ChatClient:
+
     • Define la signatura de los métodos de envío de mensaje, desconexión y arranque.
+
 Comentarios respecto a ChatClientImpl:
+
     • El cliente en su invocación recibe una dirección IP/nombre de máquina y un nickname. El puerto de conexión es siempre el 1500. Si no se indica el equipo servidor, se toma como valor por defecto localhost.
         ▪ Ej: java es.ubu.lsi.client.ChatClientImpl 10.168.168.13 jpseco
     • Contiene un método main que arranca el hilo principal de ejecución del cliente: instan-cia el cliente y arranca adicionalmente (en el método start) un hilo adicional a través de ChatClientListener.
     • En el hilo principal se espera a la entrada de consola por parte del usuario para el envío del mensaje (flujo de salida, a través del método sendMessage). Cuando se sale del bucle (Ej: logout) se desconecta.
+
 Comentarios respecto a ChatClientListener:
+
     • Implementa la interfaz Runnable, por lo tanto, redefine el método run para ejecutar el hilo de escucha de mensajes del servidor (flujo de entrada) y mostrar los mensajes entrantes.
 
 <img width="604" height="444" alt="image" src="https://github.com/user-attachments/assets/7d72410c-d3fe-47e4-aee1-ff30c5cb1437" />
