@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Chat-1.0" default="compile" basedir=".">
+	<description>Chat - Practica 1 - Sistemas Distribuidos  - GII - 2025-2026</description>
+	<!-- Properties of the project... -->
+
+	<!-- Dir properties -->
+	<property name="name.game" value="chat" />
+	<property name="src.dir" value="${basedir}/src/main/java" />
+	<property name="build.dir" value="${basedir}/build" />
+	<property name="dist.dir" value="${basedir}/dist" />
+	<property name="doc.dir" value="${basedir}/doc" />
+	<property name="doccheck.dir" value="${basedir}/doccheck" />
+	<property name="lib.dir" value="${basedir}/lib" />
+	<property name="backup.dir" value="${basedir}/backup" />
+	<property name="app.version" value="2026.1.0" />
+
+	<!-- ==================== Definition of CLASSPATH ==================== -->
+	<path id="compile.classpath">
+		<pathelement location="${build.dir}" />
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
+	<!-- ==================== Development Targets ==================== -->
+
+	<target name="all" description="Development targets." depends="clean, prepare, compile, dist, allDoc, backupProject" />
+
+	<!-- ==================== Prepare Target ==================== -->
+	<target description="Create directories" name="prepare">
+		<mkdir dir="${build.dir}" />
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}/lib" />
+		<mkdir dir="${doc.dir}" />
+		<mkdir dir="${doccheck.dir}" />
+		<mkdir dir="${backup.dir}" />
+	</target>
+
+	<!-- ==================== Clean Target ==================== -->
+	<!-- Delete the previous files from directories, to rebuild the complete products. -->
+
+	<target description="Delete the directories with generated products ." name="clean">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete dir="${doc.dir}" />
+		<delete dir="${doccheck.dir}" />
+		<delete dir="${backup.dir}" />
+	</target>
+
+	<!-- ==================== Compile Target ==================== -->
+	<target name="compile" depends="prepare" description="Compile the full source files.">
+		<javac encoding="UTF-8" srcdir="${src.dir}" destdir="${build.dir}" source="1.8" target="1.8" includeantruntime="false">
+			<classpath refid="compile.classpath" />
+		</javac>
+	</target>
+
+	<!-- ==================== Application Target ==================== -->
+	<target name="dist" depends="compile" description="Generate the application (jar file).">
+		<jar destfile="${dist.dir}/${name.game}-${app.version}.jar" basedir="${build.dir}" includes="es/**">
+			<manifest>
+                <attribute name="Main-Class" value="es.ubu.lsi.server.ChatServerImpl" />
+                <attribute name="Implementation-Version" value="${app.version}" />
+            </manifest>
+		</jar>
+	</target>
+
+	<!-- ==================== Documentation Targets ==================== -->
+	<!-- ==================== All Doc Targets ==================== -->
+	<target name="allDoc" depends="javadoc, doccheck" />
+
+
+	<!-- ==================== Javadoc Target ==================== -->
+	 <target name="javadoc" depends="prepare,compile" description="JavaDoc API">
+	        <javadoc encoding="UTF-8" charset="UTF-8" docencoding="UTF-8"  destdir="${doc.dir}" packagenames="es.ubu.lsi.*"  source="1.8" access="private" windowtitle="Chat API - Práctica 1" doctitle="Chat - Sistemas Distribuidos 2025-2026">	            
+	            <classpath>
+	                <pathelement location="${build.dir}" />
+	            </classpath>
+	            
+	            <fileset dir="${src.dir}" casesensitive="yes">
+	                <include name="**/*.java" />
+	            </fileset>
+	            
+	            <link href="https://docs.oracle.com/en/java/javase/8/docs/api/"/>
+	        </javadoc>
+	        <echo message="Javadoc generado en ${doc.dir}"/>
+	    </target>
+
+	<!-- ==================== Javadoc Doccheck Target ==================== -->
+
+	<target name="doccheck" depends="prepare,compile" description="Check the documentation">
+		<javadoc encoding="UTF-8" destdir="${doccheck.dir}" packagenames="es.*" 
+			doclet="com.sun.tools.doclets.doccheck.DocCheck" 
+			docletpath="${lib.dir}/doccheck.jar" 
+			source="1.8" defaultexcludes="yes" access="private">
+			<classpath refid="compile.classpath" />
+					<fileset dir="${src.dir}" casesensitive="yes">
+							<include name="**/*.java" />
+					</fileset>
+		</javadoc>
+	</target>
+
+	<!-- ==================== Backup Project Target ==================== -->
+	<target name="backupProject" depends="clean" description="Generate backup of the project.">
+        <delete dir="${backup.dir}" />
+        <mkdir dir="${backup.dir}" />
+        <jar destfile="${backup.dir}/${name.game}-${app.version}-project.jar" 
+             basedir="." 
+             excludes="backup/*.jar,target/**,.git/**,.idea/**,*.iml">
+            <manifest>
+                <attribute name="Project-Name" value="${name.game}" />
+                <attribute name="Version" value="${app.version}" />
+                <attribute name="Date" value="${TODAY}" />
+            </manifest>
+        </jar>
+        <echo message="Backup creado en ${backup.dir}"/>
+	</target>
+
+	<!-- ==================== Run Targets ==================== -->
+	    <target name="run-server" depends="compile" description="Run the server">
+	        <java classname="es.ubu.lsi.server.ChatServerImpl" fork="true">
+	            <classpath refid="compile.classpath" />
+	        </java>
+	    </target>
+
+	    <target name="run-client" depends="compile" description="Run a client">
+	        <input message="Enter username:" addproperty="client.username" />
+	        <java classname="es.ubu.lsi.client.ChatClientImpl" fork="true">
+	            <classpath refid="compile.classpath" />
+	            <arg value="${client.username}" />
+	        </java>
+	    </target>
+</project>
