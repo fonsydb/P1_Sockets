@@ -36,19 +36,17 @@ Dadas las facilidades que ofrecen las clases internas (inner classes) en Java re
 Los mensajes se trasmiten como objetos serializados, por lo que para la resolución de la práctica se deben usar flujos de entrada y salida de tipo ObjectInputStream y Objec-tOuputStream del paquete java.io.
 
 1.1. Paquete es.ubu.lsi.client
-Comentarios respecto a la interfaz ChatClient:
 
+Comentarios respecto a la interfaz ChatClient:
     • Define la signatura de los métodos de envío de mensaje, desconexión y arranque.
 
 Comentarios respecto a ChatClientImpl:
-
     • El cliente en su invocación recibe una dirección IP/nombre de máquina y un nickname. El puerto de conexión es siempre el 1500. Si no se indica el equipo servidor, se toma como valor por defecto localhost.
         ▪ Ej: java es.ubu.lsi.client.ChatClientImpl 10.168.168.13 jpseco
     • Contiene un método main que arranca el hilo principal de ejecución del cliente: instan-cia el cliente y arranca adicionalmente (en el método start) un hilo adicional a través de ChatClientListener.
     • En el hilo principal se espera a la entrada de consola por parte del usuario para el envío del mensaje (flujo de salida, a través del método sendMessage). Cuando se sale del bucle (Ej: logout) se desconecta.
 
 Comentarios respecto a ChatClientListener:
-
     • Implementa la interfaz Runnable, por lo tanto, redefine el método run para ejecutar el hilo de escucha de mensajes del servidor (flujo de entrada) y mostrar los mensajes entrantes.
 
 <img width="604" height="444" alt="image" src="https://github.com/user-attachments/assets/7d72410c-d3fe-47e4-aee1-ff30c5cb1437" />
@@ -56,12 +54,15 @@ Comentarios respecto a ChatClientListener:
 1.2. Paquete es.ubu.lsi.common
 Comentarios respecto a la clase ChatMessage:
     • Mensaje que se envía y recibe en el chat. Encapsula el identificador del cliente que ge-nera el mensaje, el tipo y en algunos casos el texto a mostrar.
+    
 Comentarios respecto a la interfaz MessageType:
     • Enumeración interna del mensaje. Define mensajes de tipo texto y logout (para cerrar sesión). El tercer tipo de mensaje (shutdown) se define para usos futuros, pero no se re-quiere su uso en esta práctica.
 
 1.3. Paquete es.ubu.lsi.server
+
 Comentarios respecto a la interfaz ChatServer:
     • Define la signatura de los métodos de arranque, multidifusión, eliminación de cliente y apagado.
+
 Comentarios respecto a la clase ChatServerImpl:
     • Por defecto el servidor se ejecuta en el puerto 1500. en su invocación no recibe argu-mentos.
         ◦ Ej: java es.ubu.lsi.server.ChatServerImpl
@@ -70,6 +71,7 @@ Comentarios respecto a la clase ChatServerImpl:
     • El método broadcast envía el mensaje recepcionado a todos los clientes (flujo de sa-lida).
     • El método remove elimina un cliente de la lista.
     • El método shutdown cierra los flujos de entrada/salida y el socket correspondiente de cada cliente.
+    
 Comentarios respecto a la clase ChatServerThreadForClient:
     • La clase extiende de Thread.
     • En el método run se espera en un bucle a los mensajes recibidos de cada cliente (flujo de entrada), realizándose la operación correspondiente (a través de los métodos de la clase externa, ChatServer). A la finalización de su ejecución se debe eliminar al pro-pio cliente de la lista de clientes activos.
@@ -77,8 +79,10 @@ Comentarios respecto a la clase ChatServerThreadForClient:
 <img width="640" height="585" alt="image" src="https://github.com/user-attachments/assets/8526db1e-a0a2-4ae2-81d5-dc6ff3a72736" />
 
 2. Normas de Entrega
+
 Fecha límite de entrega:
     • 19 de marzo de 2025 (martes) hasta las 21:30 horas
+
 Formato de entrega:
     • Tal y cómo hemos hablado en clase, la entrega se realizará a través de un repositorio de github.
     • Cualquier entrega fuera del repositorio de github, no será tenida en cuenta.
